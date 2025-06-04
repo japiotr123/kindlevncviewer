@@ -6,7 +6,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with: {submodules: recursive}
+        with:
+          submodules: recursive
+          fetch-depth: 0
+        
 
       - name: Install base deps
         run: sudo apt-get update && sudo apt-get install -y git build-essential pkg-config autoconf automake libtool texinfo cmake unzip
