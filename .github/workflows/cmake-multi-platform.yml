@@ -20,7 +20,7 @@ jobs:
       - name: Build viewer
         run: make ARCH=arm-kindle-linux-gnueabi
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: kvncviewer
           path: dist/
