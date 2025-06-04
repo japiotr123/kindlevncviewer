@@ -1,0 +1,26 @@
+name: Build KindleVNCViewer
+on: [workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {submodules: recursive}
+
+      - name: Install base deps
+        run: sudo apt-get update && sudo apt-get install -y git build-essential pkg-config autoconf automake libtool texinfo cmake unzip
+
+      - name: Fetch koxtoolchain
+        run: |
+          git clone https://github.com/koreader/koxtoolchain.git
+          koxtoolchain/gen-tc.sh kindle
+          echo "$HOME/x-tools/arm-kindle-linux-gnueabi/bin" >> "$GITHUB_PATH"
+
+      - name: Build viewer
+        run: make ARCH=arm-kindle-linux-gnueabi
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: kvncviewer
+          path: dist/
